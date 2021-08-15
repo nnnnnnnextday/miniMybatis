@@ -154,11 +154,11 @@ public <T> T getMapper(Class<T> type) {
 
 其实这里是直接在自定义的DefaultSqlSession类中实现了getMapper方法，即在自定义的getMapper方法里调用反射的newProxyInstance方法来产生mapper的实现类。但是在Mybatis源码中，这个调用顺序是很复杂的，从官方SqlSession类的getMapper开始，往下是调用configuration实例的getMapper方法，再往下是调用mapperRegistry的getMapper方法。在mapperRegistry的getMapper方法中，会通过mapperProxyFactory这个代理工厂的newInstance方法来返回mapper的实现类。所以才说是动态代理和动态工厂的结合。
 
-![image-20210815150235280](image\089a30ff4311abe244188da89e0a93d.png)
+![image-20210815150235280](../image/089a30ff4311abe244188da89e0a93d.png)
 
-![image-20210815150241222](image\4610e9c5a714083e137c86ad136d3c5.png)
+![image-20210815150241222](../image/4610e9c5a714083e137c86ad136d3c5.png)
 
-![image-20210815150245446](image\accf393f599d23e243d23815be4201d.png)
+![image-20210815150245446](../image/accf393f599d23e243d23815be4201d.png)
 
 #### 本项目中动态代理的实现
 
