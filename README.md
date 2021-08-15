@@ -148,13 +148,19 @@ public <T> T getMapper(Class<T> type) {
 
 #### 动态代理的原理机制
 
-为什么运行期间，可以生成接口的实现类？
-
 为什么Java的动态代理实现必须基于接口？（类不能多层继承）
 
-这两个问题和动态代理的源码阅读先买个坑，等下填。
+为什么运行期间，可以生成接口的实现类？
 
-#### 动态代理的实现
+其实这里是直接在自定义的DefaultSqlSession类中实现了getMapper方法，即在自定义的getMapper方法里调用反射的newProxyInstance方法来产生mapper的实现类。但是在Mybatis源码中，这个调用顺序是很复杂的，从官方SqlSession类的getMapper开始，往下是调用configuration实例的getMapper方法，再往下是调用mapperRegistry的getMapper方法。在mapperRegistry的getMapper方法中，会通过mapperProxyFactory这个代理工厂的newInstance方法来返回mapper的实现类。所以才说是动态代理和动态工厂的结合。
+
+![image-20210815150235280](image\089a30ff4311abe244188da89e0a93d.png)
+
+![image-20210815150241222](image\4610e9c5a714083e137c86ad136d3c5.png)
+
+![image-20210815150245446](image\accf393f599d23e243d23815be4201d.png)
+
+#### 本项目中动态代理的实现
 
 关键词：Proxy，invocationHandler
 
@@ -166,6 +172,15 @@ TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);//获取对应的ma
 ```
 
 项目里根本没有mapper的实现类，但是只要把class对象传进去，就能得到实现类，这就是newProxyInstance()方法的功劳，newProxyInstance()方法有三个参数：loader, interfaces, h
+
+```java
+//动态代理
+    @Override
+    public <T> T getMapper(Class<T> type) {
+        MappedProxy mappedProxy = new MappedProxy(this);
+        return (T) Proxy.newProxyInstance(type.getClassLoader(), new Class[]{type}, mappedProxy);
+    }
+```
 
 * loader：传进来的接口和其实现类，必然是同一个加载器。
 * interface：传进来的接口即可
