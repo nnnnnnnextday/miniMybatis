@@ -156,9 +156,9 @@ public <T> T getMapper(Class<T> type) {
 
 ![image-20210815150235280](https://github.com/nnnnnnnextday/miniMybatis/blob/master/image/089a30ff4311abe244188da89e0a93d.png)
 
-![image-20210815150241222](https://github.com/nnnnnnnextday/miniMybatis/image//4610e9c5a714083e137c86ad136d3c5.png)
+![image-20210815150241222](https://github.com/nnnnnnnextday/miniMybatis/blob/master/image/4610e9c5a714083e137c86ad136d3c5.png)
 
-![image-20210815150245446](https://github.com/nnnnnnnextday/miniMybatis/image//accf393f599d23e243d23815be4201d.png)
+![image-20210815150245446](https://github.com/nnnnnnnextday/miniMybatis/blob/master/image/accf393f599d23e243d23815be4201d.png)
 
 #### 本项目中动态代理的实现
 
